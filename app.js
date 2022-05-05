@@ -3,11 +3,19 @@ const express = require("express");
 const path = require("path");
 const cookieParser = require("cookie-parser");
 const logger = require("morgan");
+require("dotenv").config();
 
 const indexRouter = require("./routes/index");
 const usersRouter = require("./routes/users");
 
 const app = express();
+
+// mongoose connection
+const mongoose = require("mongoose");
+const mongoDB = process.env.MONGO_URI;
+mongoose.connect(mongoDB);
+const db = mongoose.connection;
+db.on("error", console.error.bind(console, "MongoDB connection error:"));
 
 // view engine setup
 app.set("views", path.join(__dirname, "views"));
